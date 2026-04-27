@@ -30,16 +30,16 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .btn-sm{padding:5px 10px;font-size:12px}
 .btn-danger{color:var(--red);border-color:#f0c0c0}.btn-danger:hover{background:var(--rl)}
 .btn-ghost{border-color:transparent;background:transparent;color:var(--muted)}.btn-ghost:hover{background:var(--bg);color:var(--text);border-color:var(--border)}
-.btn-ai{background:linear-gradient(135deg,#2d5a8e,#5c2d8a);color:#fff;border:none}.btn-ai:hover{opacity:.9}
+.btn-nb{background:#1a7a4a;color:#fff;border-color:#1a7a4a}.btn-nb:hover{background:#155f39}
 .nav{display:flex;gap:2px;margin-bottom:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:4px}
 .nt{flex:1;padding:8px 10px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);border-radius:var(--r);transition:all .15s;text-align:center;font-family:var(--sans)}
 .nt.active{background:var(--accent);color:#fff}
 .nt:hover:not(.active){background:var(--bg);color:var(--text)}
-.nb{display:inline-block;font-size:10px;padding:1px 5px;border-radius:99px;margin-left:3px;background:var(--al);color:var(--accent)}
-.nt.active .nb{background:rgba(255,255,255,.25);color:#fff}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.nb2{display:inline-block;font-size:10px;padding:1px 5px;border-radius:99px;margin-left:3px;background:var(--al);color:var(--accent)}
+.nt.active .nb2{background:rgba(255,255,255,.25);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1.5rem}
 .stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:12px 16px}
-.stat-n{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--accent)}
+.stat-n{font-family:var(--mono);font-size:26px;font-weight:500;color:var(--accent)}
 .stat-l{font-size:11px;color:var(--muted);margin-top:1px;font-family:var(--mono)}
 .sbar{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
 .sbar input{flex:1;min-width:200px}
@@ -76,18 +76,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .chklist input[type=checkbox]{width:15px;height:15px;cursor:pointer;flex-shrink:0;accent-color:var(--accent)}
 a.lnk{color:var(--accent);text-decoration:none;font-size:11px;font-family:var(--mono)}
 a.lnk:hover{text-decoration:underline}
-.sum-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:20px;margin-bottom:16px}
-.sum-overview{font-size:14px;line-height:1.8;color:var(--text);margin-bottom:0}
-.sum-paper-item{padding:12px 0;border-bottom:1px solid var(--border)}
-.sum-paper-item:last-child{border-bottom:none}
-.sum-paper-title{font-size:12px;font-weight:500;color:var(--accent);margin-bottom:4px;font-family:var(--mono)}
-.sum-paper-bullet{font-size:13px;color:var(--text);line-height:1.7}
-.ai-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);padding:3px 10px;border-radius:99px;background:var(--pl);color:var(--purple);margin-bottom:12px}
-.sum-controls{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:1.25rem}
-.sum-controls select{width:200px}
-.streaming-cursor{display:inline-block;width:2px;height:14px;background:var(--accent);vertical-align:middle;animation:blink .8s step-end infinite;margin-left:2px}
-@keyframes blink{50%{opacity:0}}
-@media(max-width:620px){.wrap{padding:1rem}.stats{grid-template-columns:1fr 1fr}.sbar{flex-direction:column}}
+.export-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:20px;margin-bottom:12px}
+.export-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem}
+.export-card{border:1px solid var(--border);border-radius:var(--rl2);padding:16px;display:flex;flex-direction:column;gap:8px}
+.export-card-title{font-weight:500;font-size:13px}
+.export-card-desc{font-size:12px;color:var(--muted);line-height:1.5;flex:1}
+.export-tag{display:inline-block;font-size:10px;font-family:var(--mono);padding:2px 7px;border-radius:99px;background:var(--al);color:var(--accent);margin-bottom:4px}
+.gene-field{background:var(--al);border:1px solid var(--accent);border-radius:var(--r);padding:8px 10px;font-size:13px;color:var(--accent);font-family:var(--mono);font-weight:500}
+@media(max-width:620px){.wrap{padding:1rem}.stats{grid-template-columns:1fr 1fr}.sbar{flex-direction:column}.export-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -101,11 +97,12 @@ a.lnk:hover{text-decoration:underline}
     </div>
   </header>
 
+  <!-- LOGIN -->
   <div class="screen active" id="s-login">
     <div class="login-wrap">
       <div class="lcard">
         <div class="ltitle">lab.lit</div>
-        <div class="lsub">Your personal PubMed library. Search, save, annotate, and get AI-powered summaries of your papers by topic.</div>
+        <div class="lsub">Your personal PubMed library. Search any gene, save papers, annotate findings, and export to Excel or Google NotebookLM.</div>
         <div style="margin-bottom:12px">
           <label for="li">Your name</label>
           <input type="text" id="li" placeholder="e.g. Sarah Chen" autocomplete="name" onkeydown="if(event.key==='Enter')login()" />
@@ -120,23 +117,28 @@ a.lnk:hover{text-decoration:underline}
     </div>
   </div>
 
+  <!-- MAIN -->
   <div class="screen" id="s-main">
     <div class="stats">
       <div class="stat"><div class="stat-n" id="st-p">0</div><div class="stat-l">papers saved</div></div>
       <div class="stat"><div class="stat-n" id="st-t">0</div><div class="stat-l">topics</div></div>
       <div class="stat"><div class="stat-n" id="st-a">0</div><div class="stat-l">annotated</div></div>
-      <div class="stat"><div class="stat-n" id="st-s">0</div><div class="stat-l">summaries run</div></div>
     </div>
     <nav class="nav">
       <button class="nt active" onclick="goTab('search',this)">Search PubMed</button>
-      <button class="nt" onclick="goTab('library',this)">Library <span class="nb" id="lbadge">0</span></button>
+      <button class="nt" onclick="goTab('library',this)">Library <span class="nb2" id="lbadge">0</span></button>
       <button class="nt" onclick="goTab('topics',this)">Topics</button>
-      <button class="nt" onclick="goTab('summary',this)">AI Summary</button>
+      <button class="nt" onclick="goTab('export',this)">Export</button>
     </nav>
 
+    <!-- SEARCH TAB -->
     <div id="t-search">
+      <div style="margin-bottom:12px">
+        <label for="gene-tag-input">Gene / search term (saved with each paper for filtering)</label>
+        <input type="text" id="gene-tag-input" placeholder='e.g. REV3L' style="margin-bottom:8px" />
+      </div>
       <div class="sbar">
-        <input type="text" id="qi" placeholder='Gene name — e.g. BRCA1  or  REV3L OR "Polymerase Zeta"' onkeydown="if(event.key==='Enter')doSearch()" />
+        <input type="text" id="qi" placeholder='PubMed query — e.g. REV3L OR "Polymerase Zeta"' onkeydown="if(event.key==='Enter')doSearch()" />
         <select id="lim" style="width:140px">
           <option value="100">100 results</option>
           <option value="250">250 results</option>
@@ -151,22 +153,22 @@ a.lnk:hover{text-decoration:underline}
       <div id="sres"></div>
     </div>
 
+    <!-- LIBRARY TAB -->
     <div id="t-library" style="display:none">
       <div class="frow">
         <input type="search" id="lq" placeholder="Search title, authors, notes, highlights..." oninput="renderLib()" />
         <select id="ltag" onchange="renderLib()"><option value="">All topics</option></select>
+        <select id="lgene" onchange="renderLib()"><option value="">All genes</option></select>
         <select id="lsort" onchange="renderLib()">
           <option value="saved">Recently saved</option>
           <option value="year">Year (newest first)</option>
           <option value="title">Title A–Z</option>
         </select>
       </div>
-      <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
-        <button class="btn btn-sm" onclick="exportCSV()">Export to CSV / Excel</button>
-      </div>
       <div id="lres"></div>
     </div>
 
+    <!-- TOPICS TAB -->
     <div id="t-topics" style="display:none">
       <div style="display:flex;gap:8px;margin-bottom:1rem">
         <input type="text" id="ntop" placeholder="New topic — e.g. DNA damage, replication stress, mouse models" style="flex:1" onkeydown="if(event.key==='Enter')addTopic()" />
@@ -175,22 +177,54 @@ a.lnk:hover{text-decoration:underline}
       <div id="tlist"></div>
     </div>
 
-    <div id="t-summary" style="display:none">
-      <div style="margin-bottom:1rem">
-        <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem">Select a topic to generate an AI-powered synthesis of all papers tagged to it. You'll get an overview paragraph followed by a key finding for each paper.</p>
-        <div class="sum-controls">
-          <div style="flex:1;min-width:180px">
-            <label for="sum-topic-sel">Topic to summarize</label>
-            <select id="sum-topic-sel"><option value="">— choose a topic —</option></select>
+    <!-- EXPORT TAB -->
+    <div id="t-export" style="display:none">
+      <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.25rem">Export your saved library in different formats. Filter by topic or gene before exporting to get a focused dataset.</p>
+
+      <div class="export-section">
+        <div class="stitle">Filter before exporting (optional)</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+          <div style="flex:1;min-width:160px">
+            <label for="ex-tag">Topic</label>
+            <select id="ex-tag"><option value="">All topics</option></select>
           </div>
-          <button class="btn btn-ai" onclick="runSummary()" id="sum-btn">Generate AI summary</button>
+          <div style="flex:1;min-width:160px">
+            <label for="ex-gene">Gene</label>
+            <select id="ex-gene"><option value="">All genes</option></select>
+          </div>
         </div>
-        <div id="sum-paper-count" style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-bottom:4px"></div>
+        <div style="margin-top:10px;font-size:12px;color:var(--faint);font-family:var(--mono)" id="ex-count"></div>
       </div>
-      <div id="sum-output"></div>
+
+      <div class="export-grid">
+
+        <!-- EXCEL EXPORT -->
+        <div class="export-card">
+          <div class="export-tag">Excel / CSV</div>
+          <div class="export-card-title">Detailed spreadsheet</div>
+          <div class="export-card-desc">Exports all papers with columns for: Gene, Species, Year, Title, Journal, Abstract, First Author, Affiliation, Published URL, DOI, and PMID. Opens in Excel or Google Sheets.</div>
+          <div style="display:flex;gap:8px;margin-top:4px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="exportExcel()">Download Excel (.xlsx)</button>
+            <button class="btn btn-sm" onclick="exportCSV()">Download CSV</button>
+          </div>
+        </div>
+
+        <!-- NOTEBOOKLM EXPORT -->
+        <div class="export-card">
+          <div class="export-tag">Google NotebookLM</div>
+          <div class="export-card-title">NotebookLM source pack</div>
+          <div class="export-card-desc">Downloads a single .txt file with all abstracts, authors, and metadata formatted for easy upload to Google NotebookLM as a source document. Then ask NotebookLM questions across all your papers.</div>
+          <div style="margin-top:4px">
+            <button class="btn btn-nb btn-sm" onclick="exportNotebookLM()">Download for NotebookLM</button>
+          </div>
+          <div style="margin-top:8px;font-size:11px;color:var(--faint);font-family:var(--mono)">→ Upload the .txt to NotebookLM, then ask questions like "What do these papers say about REV3L in cancer?"</div>
+        </div>
+
+      </div>
     </div>
   </div>
 
+  <!-- ANNOTATE SCREEN -->
   <div class="screen" id="s-ann">
     <button class="btn btn-ghost btn-sm" onclick="backMain()" style="margin-bottom:1rem">← Back</button>
     <div id="ann-body"></div>
@@ -199,11 +233,12 @@ a.lnk:hover{text-decoration:underline}
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
-let user='', db={papers:{},topics:[],summaryCount:0};
+let user='', db={papers:{},topics:[]};
 
 const dbKey=()=>'lablit_'+user.toLowerCase().replace(/\s+/g,'_');
-function loadDB(){try{const r=localStorage.getItem(dbKey());if(r)db=JSON.parse(r);if(!db.papers)db.papers={};if(!db.topics)db.topics=[];if(!db.summaryCount)db.summaryCount=0;}catch(e){db={papers:{},topics:[],summaryCount:0};}}
+function loadDB(){try{const r=localStorage.getItem(dbKey());if(r)db=JSON.parse(r);if(!db.papers)db.papers={};if(!db.topics)db.topics=[];}catch(e){db={papers:{},topics:[]};}}
 function saveDB(){try{localStorage.setItem(dbKey(),JSON.stringify(db));}catch(e){}}
 function getUsers(){try{return JSON.parse(localStorage.getItem('lablit_users')||'[]');}catch(e){return[];}}
 function pushUser(n){const u=getUsers().filter(x=>x!==n);u.unshift(n);localStorage.setItem('lablit_users',JSON.stringify(u.slice(0,10)));}
@@ -230,10 +265,10 @@ function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.re
 
 function goTab(name,btn){
   document.querySelectorAll('.nt').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
-  ['search','library','topics','summary'].forEach(t=>document.getElementById('t-'+t).style.display=t===name?'block':'none');
-  if(name==='library'){fillTagFilter();renderLib();}
+  ['search','library','topics','export'].forEach(t=>document.getElementById('t-'+t).style.display=t===name?'block':'none');
+  if(name==='library'){fillFilters();renderLib();}
   if(name==='topics')renderTopics();
-  if(name==='summary')fillSummaryTopics();
+  if(name==='export'){fillExportFilters();updateExportCount();}
 }
 
 function refreshStats(){
@@ -241,12 +276,17 @@ function refreshStats(){
   document.getElementById('st-p').textContent=pp.length;
   document.getElementById('st-t').textContent=db.topics.length;
   document.getElementById('st-a').textContent=pp.filter(p=>p.notes||p.highlight||(p.tags&&p.tags.length)).length;
-  document.getElementById('st-s').textContent=db.summaryCount||0;
   document.getElementById('lbadge').textContent=pp.length;
+}
+
+function allGenes(){
+  const genes=new Set(Object.values(db.papers).map(p=>p.gene).filter(Boolean));
+  return [...genes].sort();
 }
 
 async function doSearch(){
   const q=document.getElementById('qi').value.trim();if(!q)return;
+  const gene=document.getElementById('gene-tag-input').value.trim();
   const lim=document.getElementById('lim').value;
   const btn=document.getElementById('sbtn'),st=document.getElementById('sstat'),res=document.getElementById('sres');
   btn.disabled=true;st.innerHTML='<span class="spin"></span>Searching PubMed...';res.innerHTML='';
@@ -254,34 +294,56 @@ async function doSearch(){
     const sd=await(await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURIComponent(q)}&retmax=${lim}&retmode=json&sort=relevance`)).json();
     const ids=sd.esearchresult.idlist,total=parseInt(sd.esearchresult.count);
     if(!ids.length){st.textContent='No results found.';btn.disabled=false;return;}
-    st.innerHTML=`<span class="spin"></span>Fetching ${ids.length} of ${total.toLocaleString()} total papers...`;
+    st.innerHTML=`<span class="spin"></span>Fetching ${ids.length} of ${total.toLocaleString()} papers...`;
     let papers=[];
     for(let i=0;i<ids.length;i+=20){
       const xml=await(await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=${ids.slice(i,i+20).join(',')}&retmode=xml`)).text();
-      papers.push(...parseXML(xml));
+      papers.push(...parseXML(xml,gene));
       st.innerHTML=`<span class="spin"></span>Fetched ${Math.min(i+20,ids.length)} / ${ids.length}...`;
       await sleep(340);
     }
     st.innerHTML=`<strong>${papers.length}</strong> papers fetched &nbsp;·&nbsp; <span style="color:var(--faint)">${total.toLocaleString()} total on PubMed</span>`;
     res.innerHTML=papers.map(p=>searchCard(p)).join('');
-  }catch(ex){st.textContent='Could not reach PubMed. Check your internet connection.';}
+  }catch(ex){st.textContent='Could not reach PubMed. Check your connection.';}
   btn.disabled=false;
 }
 
-function parseXML(xml){
+function parseXML(xml,gene){
   return Array.from(new DOMParser().parseFromString(xml,'text/xml').querySelectorAll('PubmedArticle')).map(a=>{
     const g=s=>{const el=a.querySelector(s);return el?el.textContent.trim():'';};
     const te=a.querySelector('ArticleTitle');
     const title=te?te.textContent.trim():'';
-    const auths=Array.from(a.querySelectorAll('Author')).map(au=>{
+
+    // Authors — grab full list and first author details
+    const authorEls=Array.from(a.querySelectorAll('Author'));
+    const authNames=authorEls.map(au=>{
       const l=au.querySelector('LastName')?.textContent||'',f=au.querySelector('ForeName')?.textContent||'';
       return l?`${l} ${f}`.trim():'';
     }).filter(Boolean);
+    const authorStr=authNames.length>3?authNames.slice(0,3).join(', ')+' et al.':authNames.join(', ')||'N/A';
+    const firstAuthor=authNames[0]||'';
+
+    // First author affiliation
+    let affiliation='';
+    if(authorEls.length>0){
+      const affEl=authorEls[0].querySelector('AffiliationInfo Affiliation')||a.querySelector('AffiliationInfo Affiliation');
+      if(affEl)affiliation=affEl.textContent.trim();
+    }
+
+    // Species from MeshHeadings
+    let species='';
+    const meshTerms=Array.from(a.querySelectorAll('MeshHeading DescriptorName'));
+    const speciesTerms=['Humans','Mice','Rats','Zebrafish','Drosophila','Arabidopsis','Saccharomyces cerevisiae','Caenorhabditis elegans','Xenopus'];
+    for(const t of meshTerms){if(speciesTerms.includes(t.textContent.trim())){species=t.textContent.trim();break;}}
+
     const abs=Array.from(a.querySelectorAll('AbstractText')).map(el=>el.textContent).join(' ').trim()||'No abstract available.';
     const pmid=g('PMID');
     const doi=Array.from(a.querySelectorAll('ArticleId')).find(el=>el.getAttribute('IdType')==='doi')?.textContent||'';
     const year=g('PubDate Year')||(g('PubDate MedlineDate')||'').slice(0,4);
-    return{pmid,title,authors:auths.length>3?auths.slice(0,3).join(', ')+' et al.':auths.join(', ')||'N/A',journal:g('Journal Title')||g('MedlineTA'),year,abs,doi,url:pmid?`https://pubmed.ncbi.nlm.nih.gov/${pmid}/`:''};
+    const url=pmid?`https://pubmed.ncbi.nlm.nih.gov/${pmid}/`:'';
+    const publishedUrl=doi?`https://doi.org/${doi}`:url;
+
+    return{pmid,title,authors:authorStr,firstAuthor,affiliation,journal:g('Journal Title')||g('MedlineTA'),year,abs,doi,url,publishedUrl,species,gene:gene||''};
   });
 }
 
@@ -289,7 +351,8 @@ function searchCard(p){
   const saved=!!db.papers[p.pmid];
   return `<div class="card" id="sc-${p.pmid}">
     <div class="ct">${e(p.title)}</div>
-    <div class="cm">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''} ${p.doi?`&middot; <a class="lnk" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''} ${p.url?`&middot; <a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a>`:''}</div>
+    <div class="cm">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''} ${p.species?`&middot; ${e(p.species)}`:''}
+    ${p.doi?`&middot; <a class="lnk" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''} ${p.url?`&middot; <a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a>`:''}</div>
     <div class="abstract" id="ab-${p.pmid}">${e(p.abs)}</div>
     <div class="actions">
       <button class="btn btn-sm btn-ghost" onclick="togAbs('${p.pmid}',this)">Show abstract</button>
@@ -321,12 +384,17 @@ function openAnn(pmid){
   document.getElementById('ann-body').innerHTML=`
     <div class="asec">
       <div class="ct" style="font-size:14px">${e(p.title)}</div>
-      <div class="cm" style="margin-top:4px">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''}</div>
+      <div class="cm" style="margin-top:4px">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''}${p.species?` &middot; ${e(p.species)}`:''}</div>
+      ${p.affiliation?`<div style="font-size:11px;color:var(--faint);font-family:var(--mono);margin-top:3px">${e(p.affiliation)}</div>`:''}
       <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
         ${p.url?`<a class="btn btn-sm" href="${e(p.url)}" target="_blank">PubMed</a>`:''}
         ${p.doi?`<a class="btn btn-sm" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''}
         <span style="font-size:11px;color:var(--faint);font-family:var(--mono);padding:5px 0">Saved ${new Date(p.savedAt).toLocaleDateString()}</span>
       </div>
+    </div>
+    <div class="asec">
+      <div class="stitle">Gene / search term</div>
+      <input type="text" id="an-gene" value="${e(p.gene||'')}" placeholder="e.g. REV3L" onchange="patchAnn('${pmid}')" />
     </div>
     <div class="asec">
       <div class="stitle">Abstract</div>
@@ -357,8 +425,9 @@ function openAnn(pmid){
 
 function patchAnn(pmid){
   const p=db.papers[pmid];if(!p)return;
-  const hl=document.getElementById('an-hl'),nt=document.getElementById('an-nt');
-  if(hl)p.highlight=hl.value;if(nt)p.notes=nt.value;saveDB();
+  const hl=document.getElementById('an-hl'),nt=document.getElementById('an-nt'),gn=document.getElementById('an-gene');
+  if(hl)p.highlight=hl.value;if(nt)p.notes=nt.value;if(gn)p.gene=gn.value;
+  saveDB();
 }
 function saveAnn(pmid){
   patchAnn(pmid);refreshStats();
@@ -383,18 +452,22 @@ function delPaper(pmid){
 }
 function backMain(){show('s-main');}
 
-function fillTagFilter(){
-  const s=document.getElementById('ltag'),cur=s.value;
-  s.innerHTML='<option value="">All topics</option>'+db.topics.map(t=>`<option value="${e(t)}" ${cur===t?'selected':''}>${e(t)}</option>`).join('');
+function fillFilters(){
+  const ts=document.getElementById('ltag'),gs=document.getElementById('lgene');
+  const ct=ts.value,cg=gs.value;
+  ts.innerHTML='<option value="">All topics</option>'+db.topics.map(t=>`<option value="${e(t)}" ${ct===t?'selected':''}>${e(t)}</option>`).join('');
+  gs.innerHTML='<option value="">All genes</option>'+allGenes().map(g=>`<option value="${e(g)}" ${cg===g?'selected':''}>${e(g)}</option>`).join('');
 }
 
 function renderLib(){
   const papers=Object.values(db.papers);
   const q=(document.getElementById('lq')?.value||'').toLowerCase();
   const tag=document.getElementById('ltag')?.value||'';
+  const gene=document.getElementById('lgene')?.value||'';
   const sort=document.getElementById('lsort')?.value||'saved';
   let f=papers.filter(p=>{
     if(tag&&!(p.tags||[]).includes(tag))return false;
+    if(gene&&p.gene!==gene)return false;
     if(q&&!(p.title+p.authors+p.journal+(p.notes||'')+(p.highlight||'')).toLowerCase().includes(q))return false;
     return true;
   });
@@ -407,7 +480,7 @@ function renderLib(){
     const tags=(p.tags||[]).map(t=>`<span class="tag">${e(t)}</span>`).join('');
     return `<div class="card">
       <div class="ct">${e(p.title)}</div>
-      <div class="cm">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''} ${p.url?`&middot; <a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a>`:''}${p.doi?` &middot; <a class="lnk" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''}</div>
+      <div class="cm">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''}${p.gene?` &middot; <span style="color:var(--accent)">${e(p.gene)}</span>`:''}${p.species?` &middot; ${e(p.species)}`:''} ${p.url?`&middot; <a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a>`:''}${p.doi?` &middot; <a class="lnk" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''}</div>
       ${p.highlight?`<div style="margin:6px 0"><span class="hl ${p.hlColor||'y'}">${e(p.highlight)}</span></div>`:''}
       ${p.notes?`<div style="font-size:12px;color:var(--muted);font-style:italic;margin:4px 0">${e(p.notes)}</div>`:''}
       ${tags?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${tags}</div>`:''}
@@ -437,138 +510,176 @@ function renderTopics(){
 async function addTopic(){
   const inp=document.getElementById('ntop'),n=inp.value.trim();
   if(!n||db.topics.includes(n))return;
-  db.topics.push(n);saveDB();inp.value='';refreshStats();renderTopics();fillTagFilter();fillSummaryTopics();toast('Topic added');
+  db.topics.push(n);saveDB();inp.value='';refreshStats();renderTopics();toast('Topic added');
 }
 async function delTopic(name){
   if(!confirm(`Delete topic "${name}"?`))return;
   db.topics=db.topics.filter(t=>t!==name);
   Object.values(db.papers).forEach(p=>{if(p.tags)p.tags=p.tags.filter(t=>t!==name);});
-  saveDB();refreshStats();renderTopics();fillTagFilter();fillSummaryTopics();toast('Topic deleted');
+  saveDB();refreshStats();renderTopics();toast('Topic deleted');
 }
 function filterTopic(topic){
   document.getElementById('ltag').value=topic;
   goTab('library',document.querySelectorAll('.nt')[1]);
 }
 
-function fillSummaryTopics(){
-  const s=document.getElementById('sum-topic-sel');
-  const cur=s.value;
-  s.innerHTML='<option value="">— choose a topic —</option>'+db.topics.map(t=>{
-    const cnt=Object.values(db.papers).filter(p=>(p.tags||[]).includes(t)).length;
-    return `<option value="${e(t)}" ${cur===t?'selected':''}>${e(t)} (${cnt} paper${cnt===1?'':'s'})</option>`;
-  }).join('');
-  updateSumCount();
+function fillExportFilters(){
+  const ts=document.getElementById('ex-tag'),gs=document.getElementById('ex-gene');
+  const ct=ts.value,cg=gs.value;
+  ts.innerHTML='<option value="">All topics</option>'+db.topics.map(t=>`<option value="${e(t)}" ${ct===t?'selected':''}>${e(t)}</option>`).join('');
+  gs.innerHTML='<option value="">All genes</option>'+allGenes().map(g=>`<option value="${e(g)}" ${cg===g?'selected':''}>${e(g)}</option>`).join('');
+  updateExportCount();
 }
 
-function updateSumCount(){
-  const topic=document.getElementById('sum-topic-sel').value;
-  const el=document.getElementById('sum-paper-count');
-  if(!topic){el.textContent='';return;}
-  const cnt=Object.values(db.papers).filter(p=>(p.tags||[]).includes(topic)).length;
-  el.textContent=cnt?`${cnt} paper${cnt===1?'':'s'} will be summarized`:'No papers tagged to this topic yet.';
+function getExportPapers(){
+  const tag=document.getElementById('ex-tag')?.value||'';
+  const gene=document.getElementById('ex-gene')?.value||'';
+  return Object.values(db.papers).filter(p=>{
+    if(tag&&!(p.tags||[]).includes(tag))return false;
+    if(gene&&p.gene!==gene)return false;
+    return true;
+  });
 }
 
-document.addEventListener('change',function(ev){if(ev.target.id==='sum-topic-sel')updateSumCount();});
-
-async function runSummary(){
-  const topic=document.getElementById('sum-topic-sel').value;
-  if(!topic){toast('Please select a topic first');return;}
-  const papers=Object.values(db.papers).filter(p=>(p.tags||[]).includes(topic));
-  if(!papers.length){toast('No papers tagged to this topic');return;}
-
-  const btn=document.getElementById('sum-btn');
-  const out=document.getElementById('sum-output');
-  btn.disabled=true;
-  out.innerHTML=`<div style="font-size:13px;color:var(--muted);font-family:var(--mono);padding:1rem 0"><span class="spin"></span>Generating AI summary for "${e(topic)}" (${papers.length} papers)...</div>`;
-
-  const paperList=papers.map((p,i)=>`[${i+1}] Title: ${p.title}\nAuthors: ${p.authors}\nJournal: ${p.journal} (${p.year})\nAbstract: ${p.abs}${p.highlight?'\nKey finding noted by researcher: '+p.highlight:''}${p.notes?'\nResearcher notes: '+p.notes:''}`).join('\n\n---\n\n');
-
-  const prompt=`You are a scientific literature assistant helping a biomedical research lab.
-
-The researcher has saved ${papers.length} PubMed papers tagged to the topic: "${topic}"
-
-Here are the papers with their abstracts:
-
-${paperList}
-
-Please provide:
-
-1. OVERVIEW (3-5 sentences): A narrative synthesis of the key themes, findings, and consensus across these papers on the topic of "${topic}". Mention major trends, methods used, and any notable contradictions or gaps.
-
-2. PER-PAPER KEY FINDINGS: For each paper, one concise bullet point (1-2 sentences) summarizing its single most important finding relevant to "${topic}". Format as:
-[1] Author et al. (Year) — key finding
-[2] Author et al. (Year) — key finding
-etc.
-
-Be specific, scientifically accurate, and concise. Focus on what the researcher needs to know.`;
-
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1500,
-        messages:[{role:'user',content:prompt}]
-      })
-    });
-    const data=await resp.json();
-    const text=data.content?.map(c=>c.text||'').join('')||'No response received.';
-
-    db.summaryCount=(db.summaryCount||0)+1;
-    saveDB();refreshStats();
-
-    const parts=text.split(/\n(?=\[1\])/);
-    const overview=parts[0].replace(/^1\.\s*OVERVIEW[:\s]*/i,'').replace(/^OVERVIEW[:\s]*/i,'').trim();
-    const bullets=parts[1]||'';
-
-    const firstAuthor=p=>p.authors.split(',')[0].split(' ')[0];
-
-    out.innerHTML=`
-      <div class="ai-badge">AI summary &nbsp;·&nbsp; ${papers.length} papers &nbsp;·&nbsp; ${new Date().toLocaleDateString()}</div>
-      <div class="sum-box">
-        <div class="stitle">Overview — ${e(topic)}</div>
-        <p class="sum-overview">${e(overview)}</p>
-      </div>
-      <div class="sum-box">
-        <div class="stitle">Key finding per paper</div>
-        ${papers.map((p,i)=>{
-          const re=new RegExp(`\\[${i+1}\\][^\\n]*\\n?([^\\[]+)`,'i');
-          const m=bullets.match(re);
-          const finding=m?m[0].replace(`[${i+1}]`,'').replace(/^[^—–-]*[—–-]/,'').trim():'See abstract.';
-          return `<div class="sum-paper-item">
-            <div class="sum-paper-title">[${i+1}] ${e(p.authors.split(',').slice(0,2).join(', '))}${p.authors.includes('et al')||p.authors.split(',').length>2?' et al.':''} (${p.year}) &nbsp;<a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a></div>
-            <div class="sum-paper-bullet">${e(finding)}</div>
-          </div>`;
-        }).join('')}
-      </div>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button class="btn btn-sm" onclick="copySummary()">Copy summary</button>
-        <button class="btn btn-sm btn-ghost" onclick="runSummary()">Regenerate</button>
-      </div>
-      <div id="sum-text-hidden" style="display:none">${e('Topic: '+topic+'\n\nOVERVIEW\n'+overview+'\n\nKEY FINDINGS PER PAPER\n'+bullets)}</div>`;
-  }catch(err){
-    out.innerHTML=`<div style="font-size:13px;color:var(--red);font-family:var(--mono);padding:1rem 0">Error generating summary. Make sure you are running this through the Claude.ai interface or a valid API connection.</div>`;
-  }
-  btn.disabled=false;
+function updateExportCount(){
+  const cnt=getExportPapers().length;
+  const el=document.getElementById('ex-count');
+  if(el)el.textContent=cnt+` paper${cnt===1?'':'s'} will be exported`;
 }
 
-function copySummary(){
-  const el=document.getElementById('sum-text-hidden');
-  if(!el)return;
-  navigator.clipboard.writeText(el.textContent).then(()=>toast('Summary copied to clipboard')).catch(()=>toast('Could not copy — try selecting text manually'));
+document.addEventListener('change',function(ev){
+  if(ev.target.id==='ex-tag'||ev.target.id==='ex-gene')updateExportCount();
+});
+
+function exportExcel(){
+  const papers=getExportPapers();
+  if(!papers.length){toast('No papers to export');return;}
+
+  const wb=XLSX.utils.book_new();
+
+  // Build rows
+  const headers=['Gene','Species','Year','Title','Journal','Abstract','First Author','First Author Affiliation','Published URL','DOI','PMID'];
+  const rows=papers.map(p=>[
+    p.gene||'',
+    p.species||'',
+    p.year||'',
+    p.title||'',
+    p.journal||'',
+    p.abs||'',
+    p.firstAuthor||'',
+    p.affiliation||'',
+    p.publishedUrl||p.url||'',
+    p.doi||'',
+    p.pmid||''
+  ]);
+
+  const wsData=[headers,...rows];
+  const ws=XLSX.utils.aoa_to_sheet(wsData);
+
+  // Column widths
+  const colWidths=[12,12,6,55,30,80,25,45,35,30,12];
+  ws['!cols']=colWidths.map(w=>({wch:w}));
+
+  // Freeze header row
+  ws['!freeze']={xSplit:0,ySplit:1};
+
+  // Style header row (xlsx.js approach — apply bold via cell style)
+  headers.forEach((_,i)=>{
+    const cell=ws[XLSX.utils.encode_cell({r:0,c:i})];
+    if(cell){
+      cell.s={
+        font:{bold:true,color:{rgb:'FFFFFF'},name:'Arial',sz:11},
+        fill:{fgColor:{rgb:'1F4E79'}},
+        alignment:{horizontal:'center',vertical:'center',wrapText:true}
+      };
+    }
+  });
+
+  XLSX.utils.book_append_sheet(wb,ws,'Papers');
+
+  // Summary sheet
+  const sumData=[
+    ['Lab.lit Export Summary'],
+    [''],
+    ['Exported by:',user],
+    ['Date:',new Date().toLocaleDateString()],
+    ['Total papers:',papers.length],
+    ['Gene filter:',document.getElementById('ex-gene')?.value||'All'],
+    ['Topic filter:',document.getElementById('ex-tag')?.value||'All'],
+    [''],
+    ['Columns included:','Gene, Species, Year, Title, Journal, Abstract, First Author, First Author Affiliation, Published URL, DOI, PMID']
+  ];
+  const ws2=XLSX.utils.aoa_to_sheet(sumData);
+  ws2['!cols']=[{wch:25},{wch:60}];
+  XLSX.utils.book_append_sheet(wb,ws2,'Summary');
+
+  const fname=`${user.replace(/\s+/g,'_')}_papers_${new Date().toISOString().slice(0,10)}.xlsx`;
+  XLSX.writeFile(wb,fname);
+  toast('Excel file downloaded!');
 }
 
 function exportCSV(){
-  const papers=Object.values(db.papers);
+  const papers=getExportPapers();
   if(!papers.length){toast('No papers to export');return;}
-  const cols=['PMID','Title','Authors','Journal','Year','DOI','Topics','Key finding','Notes','Saved date','PubMed URL'];
-  const rows=papers.map(p=>[p.pmid,p.title,p.authors,p.journal,p.year,p.doi,(p.tags||[]).join('; '),p.highlight||'',p.notes||'',new Date(p.savedAt).toLocaleDateString(),p.url].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(','));
-  const csv=[cols.join(','),...rows].join('\n');
+  const headers=['Gene','Species','Year','Title','Journal','Abstract','First Author','First Author Affiliation','Published URL','DOI','PMID'];
+  const rows=papers.map(p=>[p.gene,p.species,p.year,p.title,p.journal,p.abs,p.firstAuthor,p.affiliation,p.publishedUrl||p.url,p.doi,p.pmid].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv=[headers.join(','),...rows].join('\n');
   const a=document.createElement('a');
   a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
-  a.download=`${user.replace(/\s+/g,'_')}_lab_library.csv`;
-  a.click();toast('CSV exported');
+  a.download=`${user.replace(/\s+/g,'_')}_papers_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();toast('CSV downloaded — open in Excel or Google Sheets');
+}
+
+function exportNotebookLM(){
+  const papers=getExportPapers();
+  if(!papers.length){toast('No papers to export');return;}
+
+  const gene=document.getElementById('ex-gene')?.value||'';
+  const tag=document.getElementById('ex-tag')?.value||'';
+
+  let txt=`LAB LITERATURE LIBRARY — SOURCE DOCUMENT FOR GOOGLE NOTEBOOKLM\n`;
+  txt+=`Exported by: ${user}\n`;
+  txt+=`Date: ${new Date().toLocaleDateString()}\n`;
+  if(gene)txt+=`Gene: ${gene}\n`;
+  if(tag)txt+=`Topic: ${tag}\n`;
+  txt+=`Total papers: ${papers.length}\n`;
+  txt+=`${'='.repeat(70)}\n\n`;
+
+  papers.forEach((p,i)=>{
+    txt+=`PAPER ${i+1} OF ${papers.length}\n`;
+    txt+=`${'─'.repeat(50)}\n`;
+    txt+=`TITLE: ${p.title}\n`;
+    txt+=`AUTHORS: ${p.authors}\n`;
+    txt+=`FIRST AUTHOR: ${p.firstAuthor}\n`;
+    if(p.affiliation)txt+=`AFFILIATION: ${p.affiliation}\n`;
+    txt+=`JOURNAL: ${p.journal}\n`;
+    txt+=`YEAR: ${p.year}\n`;
+    if(p.species)txt+=`SPECIES: ${p.species}\n`;
+    if(p.gene)txt+=`GENE: ${p.gene}\n`;
+    txt+=`PMID: ${p.pmid}\n`;
+    if(p.doi)txt+=`DOI: ${p.doi}\n`;
+    txt+=`URL: ${p.url}\n`;
+    txt+=`\nABSTRACT:\n${p.abs}\n`;
+    if(p.highlight)txt+=`\nKEY FINDING (researcher note):\n${p.highlight}\n`;
+    if(p.notes)txt+=`\nNOTES:\n${p.notes}\n`;
+    if(p.tags&&p.tags.length)txt+=`\nTOPICS: ${p.tags.join(', ')}\n`;
+    txt+=`\n\n`;
+  });
+
+  txt+=`${'='.repeat(70)}\n`;
+  txt+=`END OF DOCUMENT\n`;
+  txt+=`Source: PubMed via lab.lit\n`;
+  txt+=`Suggestion: Upload this file to Google NotebookLM and ask questions like:\n`;
+  txt+=`- "What are the main findings across these papers?"\n`;
+  txt+=`- "Which papers discuss [specific mechanism]?"\n`;
+  txt+=`- "Summarize what is known about ${gene||'this gene'} in cancer"\n`;
+  txt+=`- "What experimental methods were most commonly used?"\n`;
+
+  const a=document.createElement('a');
+  a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);
+  a.download=`${(gene||user).replace(/\s+/g,'_')}_notebooklm_${new Date().toISOString().slice(0,10)}.txt`;
+  a.click();
+  toast('NotebookLM file downloaded!');
 }
 
 function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500);}
