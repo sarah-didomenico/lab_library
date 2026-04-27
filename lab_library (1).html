@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lab.lit</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f6f2;--surface:#fff;--border:#e2e0d8;--bd:#c8c5ba;--text:#1a1917;--muted:#6b6860;--faint:#a09e98;--accent:#2d5a8e;--al:#e8f0f9;--green:#2d7a4f;--gl:#e8f5ee;--amber:#8a5c00;--aml:#fef3d8;--red:#8a2020;--rl:#fdeaea;--purple:#5c2d8a;--pl:#f0eafb;--r:6px;--rl2:10px;--mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;min-height:100vh}
+.wrap{max-width:920px;margin:0 auto;padding:2rem 1.5rem}
+.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1.5px solid var(--bd)}
+.logo{font-family:var(--mono);font-size:20px;font-weight:500;letter-spacing:-.02em}.logo span{color:var(--accent)}
+.uchip{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.av{width:30px;height:30px;border-radius:50%;background:var(--al);color:var(--accent);font-family:var(--mono);font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.screen{display:none}.screen.active{display:block}
+.login-wrap{max-width:420px;margin:4rem auto}
+.lcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:2rem}
+.ltitle{font-family:var(--mono);font-size:22px;font-weight:500;margin-bottom:4px}
+.lsub{font-size:13px;color:var(--muted);margin-bottom:1.5rem;line-height:1.5}
+label{display:block;font-size:11px;font-weight:500;color:var(--muted);margin-bottom:5px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+input[type=text],input[type=search],select,textarea{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:var(--r);background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);background:var(--surface)}
+textarea{resize:vertical;min-height:80px;line-height:1.5}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:var(--r);font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--bd);background:var(--surface);color:var(--text);transition:all .15s;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--bg);border-color:var(--text)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:#234b78;border-color:#234b78}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-danger{color:var(--red);border-color:#f0c0c0}.btn-danger:hover{background:var(--rl)}
+.btn-ghost{border-color:transparent;background:transparent;color:var(--muted)}.btn-ghost:hover{background:var(--bg);color:var(--text);border-color:var(--border)}
+.btn-ai{background:linear-gradient(135deg,#2d5a8e,#5c2d8a);color:#fff;border:none}.btn-ai:hover{opacity:.9}
+.nav{display:flex;gap:2px;margin-bottom:1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:4px}
+.nt{flex:1;padding:8px 10px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--muted);border-radius:var(--r);transition:all .15s;text-align:center;font-family:var(--sans)}
+.nt.active{background:var(--accent);color:#fff}
+.nt:hover:not(.active){background:var(--bg);color:var(--text)}
+.nb{display:inline-block;font-size:10px;padding:1px 5px;border-radius:99px;margin-left:3px;background:var(--al);color:var(--accent)}
+.nt.active .nb{background:rgba(255,255,255,.25);color:#fff}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:12px 16px}
+.stat-n{font-family:var(--mono);font-size:24px;font-weight:500;color:var(--accent)}
+.stat-l{font-size:11px;color:var(--muted);margin-top:1px;font-family:var(--mono)}
+.sbar{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.sbar input{flex:1;min-width:200px}
+.hint{font-size:11px;color:var(--faint);margin-bottom:12px;font-family:var(--mono)}
+.status{font-size:12px;color:var(--muted);font-family:var(--mono);min-height:20px;margin-bottom:10px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:14px 16px;margin-bottom:8px;transition:border-color .15s}
+.card:hover{border-color:var(--bd)}
+.ct{font-size:13px;font-weight:500;line-height:1.4;margin-bottom:5px}
+.cm{font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:8px}
+.abstract{font-size:12px;color:var(--muted);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.abstract.open{display:block}
+.actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center}
+.saved-chip{font-size:11px;font-family:var(--mono);color:var(--green);background:var(--gl);padding:3px 8px;border-radius:99px}
+.tag{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-family:var(--mono);padding:3px 8px;border-radius:99px;background:var(--al);color:var(--accent)}
+.tag.rm{cursor:pointer}.tag.rm:hover{background:var(--rl);color:var(--red)}
+.frow{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.frow input{flex:1;min-width:160px}
+.frow select{width:160px}
+.asec{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:16px;margin-bottom:12px}
+.stitle{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.hls{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:99px;font-size:12px;font-family:var(--mono);cursor:pointer;border:1.5px solid transparent;transition:all .15s}
+.hls.sel{border-color:var(--text)}
+.hly{background:var(--aml);color:var(--amber)}.hlg{background:var(--gl);color:var(--green)}.hlr{background:var(--rl);color:var(--red)}.hlp{background:var(--pl);color:var(--purple)}
+.hl{display:inline;padding:2px 6px;border-radius:3px;font-size:12px}
+.hl.y{background:var(--aml);color:var(--amber)}.hl.g{background:var(--gl);color:var(--green)}.hl.r{background:var(--rl);color:var(--red)}.hl.p{background:var(--pl);color:var(--purple)}
+.trow{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);margin-bottom:8px}
+.empty{text-align:center;padding:3rem 1rem;color:var(--faint);font-size:13px;font-family:var(--mono)}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid var(--bd);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--text);color:#fff;font-size:12px;font-family:var(--mono);padding:10px 16px;border-radius:var(--r);opacity:0;transition:opacity .2s;pointer-events:none;z-index:999}
+.toast.show{opacity:1}
+.chklist{display:flex;flex-direction:column;gap:8px}
+.chklist label{display:flex;align-items:center;gap:8px;font-family:var(--sans);text-transform:none;letter-spacing:0;font-size:13px;color:var(--text);cursor:pointer;font-weight:400}
+.chklist input[type=checkbox]{width:15px;height:15px;cursor:pointer;flex-shrink:0;accent-color:var(--accent)}
+a.lnk{color:var(--accent);text-decoration:none;font-size:11px;font-family:var(--mono)}
+a.lnk:hover{text-decoration:underline}
+.sum-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl2);padding:20px;margin-bottom:16px}
+.sum-overview{font-size:14px;line-height:1.8;color:var(--text);margin-bottom:0}
+.sum-paper-item{padding:12px 0;border-bottom:1px solid var(--border)}
+.sum-paper-item:last-child{border-bottom:none}
+.sum-paper-title{font-size:12px;font-weight:500;color:var(--accent);margin-bottom:4px;font-family:var(--mono)}
+.sum-paper-bullet{font-size:13px;color:var(--text);line-height:1.7}
+.ai-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-family:var(--mono);padding:3px 10px;border-radius:99px;background:var(--pl);color:var(--purple);margin-bottom:12px}
+.sum-controls{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:1.25rem}
+.sum-controls select{width:200px}
+.streaming-cursor{display:inline-block;width:2px;height:14px;background:var(--accent);vertical-align:middle;animation:blink .8s step-end infinite;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
+@media(max-width:620px){.wrap{padding:1rem}.stats{grid-template-columns:1fr 1fr}.sbar{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="app-header">
+    <div class="logo">lab<span>.</span>lit</div>
+    <div class="uchip" id="uchip" style="display:none">
+      <div class="av" id="nav-av"></div>
+      <span id="nav-nm"></span>
+      <button class="btn btn-ghost btn-sm" onclick="logout()">switch</button>
+    </div>
+  </header>
+
+  <div class="screen active" id="s-login">
+    <div class="login-wrap">
+      <div class="lcard">
+        <div class="ltitle">lab.lit</div>
+        <div class="lsub">Your personal PubMed library. Search, save, annotate, and get AI-powered summaries of your papers by topic.</div>
+        <div style="margin-bottom:12px">
+          <label for="li">Your name</label>
+          <input type="text" id="li" placeholder="e.g. Sarah Chen" autocomplete="name" onkeydown="if(event.key==='Enter')login()" />
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="login()">Open my library</button>
+        <div id="lerr" style="font-size:12px;color:var(--red);margin-top:8px;display:none;font-family:var(--mono)">Please enter your name.</div>
+        <div id="prev-wrap" style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);display:none">
+          <div style="font-size:11px;color:var(--faint);font-family:var(--mono);margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em">Return as</div>
+          <div id="prev-users" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="s-main">
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="st-p">0</div><div class="stat-l">papers saved</div></div>
+      <div class="stat"><div class="stat-n" id="st-t">0</div><div class="stat-l">topics</div></div>
+      <div class="stat"><div class="stat-n" id="st-a">0</div><div class="stat-l">annotated</div></div>
+      <div class="stat"><div class="stat-n" id="st-s">0</div><div class="stat-l">summaries run</div></div>
+    </div>
+    <nav class="nav">
+      <button class="nt active" onclick="goTab('search',this)">Search PubMed</button>
+      <button class="nt" onclick="goTab('library',this)">Library <span class="nb" id="lbadge">0</span></button>
+      <button class="nt" onclick="goTab('topics',this)">Topics</button>
+      <button class="nt" onclick="goTab('summary',this)">AI Summary</button>
+    </nav>
+
+    <div id="t-search">
+      <div class="sbar">
+        <input type="text" id="qi" placeholder='Gene name — e.g. BRCA1  or  REV3L OR "Polymerase Zeta"' onkeydown="if(event.key==='Enter')doSearch()" />
+        <select id="lim" style="width:140px">
+          <option value="100">100 results</option>
+          <option value="250">250 results</option>
+          <option value="500">500 results</option>
+          <option value="1000">1000 results</option>
+          <option value="9999">All results</option>
+        </select>
+        <button class="btn btn-primary" id="sbtn" onclick="doSearch()">Search</button>
+      </div>
+      <div class="hint">Use OR to combine terms &nbsp;·&nbsp; Quotes for exact phrases &nbsp;·&nbsp; Results sorted by relevance</div>
+      <div class="status" id="sstat"></div>
+      <div id="sres"></div>
+    </div>
+
+    <div id="t-library" style="display:none">
+      <div class="frow">
+        <input type="search" id="lq" placeholder="Search title, authors, notes, highlights..." oninput="renderLib()" />
+        <select id="ltag" onchange="renderLib()"><option value="">All topics</option></select>
+        <select id="lsort" onchange="renderLib()">
+          <option value="saved">Recently saved</option>
+          <option value="year">Year (newest first)</option>
+          <option value="title">Title A–Z</option>
+        </select>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+        <button class="btn btn-sm" onclick="exportCSV()">Export to CSV / Excel</button>
+      </div>
+      <div id="lres"></div>
+    </div>
+
+    <div id="t-topics" style="display:none">
+      <div style="display:flex;gap:8px;margin-bottom:1rem">
+        <input type="text" id="ntop" placeholder="New topic — e.g. DNA damage, replication stress, mouse models" style="flex:1" onkeydown="if(event.key==='Enter')addTopic()" />
+        <button class="btn btn-primary" onclick="addTopic()">Add topic</button>
+      </div>
+      <div id="tlist"></div>
+    </div>
+
+    <div id="t-summary" style="display:none">
+      <div style="margin-bottom:1rem">
+        <p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1rem">Select a topic to generate an AI-powered synthesis of all papers tagged to it. You'll get an overview paragraph followed by a key finding for each paper.</p>
+        <div class="sum-controls">
+          <div style="flex:1;min-width:180px">
+            <label for="sum-topic-sel">Topic to summarize</label>
+            <select id="sum-topic-sel"><option value="">— choose a topic —</option></select>
+          </div>
+          <button class="btn btn-ai" onclick="runSummary()" id="sum-btn">Generate AI summary</button>
+        </div>
+        <div id="sum-paper-count" style="font-size:12px;color:var(--faint);font-family:var(--mono);margin-bottom:4px"></div>
+      </div>
+      <div id="sum-output"></div>
+    </div>
+  </div>
+
+  <div class="screen" id="s-ann">
+    <button class="btn btn-ghost btn-sm" onclick="backMain()" style="margin-bottom:1rem">← Back</button>
+    <div id="ann-body"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let user='', db={papers:{},topics:[],summaryCount:0};
+
+const dbKey=()=>'lablit_'+user.toLowerCase().replace(/\s+/g,'_');
+function loadDB(){try{const r=localStorage.getItem(dbKey());if(r)db=JSON.parse(r);if(!db.papers)db.papers={};if(!db.topics)db.topics=[];if(!db.summaryCount)db.summaryCount=0;}catch(e){db={papers:{},topics:[],summaryCount:0};}}
+function saveDB(){try{localStorage.setItem(dbKey(),JSON.stringify(db));}catch(e){}}
+function getUsers(){try{return JSON.parse(localStorage.getItem('lablit_users')||'[]');}catch(e){return[];}}
+function pushUser(n){const u=getUsers().filter(x=>x!==n);u.unshift(n);localStorage.setItem('lablit_users',JSON.stringify(u.slice(0,10)));}
+
+function login(){
+  const n=document.getElementById('li').value.trim();
+  if(!n){document.getElementById('lerr').style.display='block';return;}
+  document.getElementById('lerr').style.display='none';
+  user=n;pushUser(n);loadDB();
+  document.getElementById('nav-nm').textContent=n;
+  document.getElementById('nav-av').textContent=n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('uchip').style.display='flex';
+  refreshStats();renderPrev();show('s-main');
+}
+function logout(){show('s-login');document.getElementById('uchip').style.display='none';renderPrev();}
+function renderPrev(){
+  const u=getUsers(),w=document.getElementById('prev-wrap'),el=document.getElementById('prev-users');
+  if(!u.length){w.style.display='none';return;}
+  w.style.display='block';
+  el.innerHTML=u.map(n=>`<button class="tag" style="cursor:pointer" onclick="ql('${ea(n)}')">${e(n)}</button>`).join('');
+}
+function ql(n){document.getElementById('li').value=n;login();}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+function goTab(name,btn){
+  document.querySelectorAll('.nt').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
+  ['search','library','topics','summary'].forEach(t=>document.getElementById('t-'+t).style.display=t===name?'block':'none');
+  if(name==='library'){fillTagFilter();renderLib();}
+  if(name==='topics')renderTopics();
+  if(name==='summary')fillSummaryTopics();
+}
+
+function refreshStats(){
+  const pp=Object.values(db.papers);
+  document.getElementById('st-p').textContent=pp.length;
+  document.getElementById('st-t').textContent=db.topics.length;
+  document.getElementById('st-a').textContent=pp.filter(p=>p.notes||p.highlight||(p.tags&&p.tags.length)).length;
+  document.getElementById('st-s').textContent=db.summaryCount||0;
+  document.getElementById('lbadge').textContent=pp.length;
+}
+
+async function doSearch(){
+  const q=document.getElementById('qi').value.trim();if(!q)return;
+  const lim=document.getElementById('lim').value;
+  const btn=document.getElementById('sbtn'),st=document.getElementById('sstat'),res=document.getElementById('sres');
+  btn.disabled=true;st.innerHTML='<span class="spin"></span>Searching PubMed...';res.innerHTML='';
+  try{
+    const sd=await(await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=${encodeURIComponent(q)}&retmax=${lim}&retmode=json&sort=relevance`)).json();
+    const ids=sd.esearchresult.idlist,total=parseInt(sd.esearchresult.count);
+    if(!ids.length){st.textContent='No results found.';btn.disabled=false;return;}
+    st.innerHTML=`<span class="spin"></span>Fetching ${ids.length} of ${total.toLocaleString()} total papers...`;
+    let papers=[];
+    for(let i=0;i<ids.length;i+=20){
+      const xml=await(await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=${ids.slice(i,i+20).join(',')}&retmode=xml`)).text();
+      papers.push(...parseXML(xml));
+      st.innerHTML=`<span class="spin"></span>Fetched ${Math.min(i+20,ids.length)} / ${ids.length}...`;
+      await sleep(340);
+    }
+    st.innerHTML=`<strong>${papers.length}</strong> papers fetched &nbsp;·&nbsp; <span style="color:var(--faint)">${total.toLocaleString()} total on PubMed</span>`;
+    res.innerHTML=papers.map(p=>searchCard(p)).join('');
+  }catch(ex){st.textContent='Could not reach PubMed. Check your internet connection.';}
+  btn.disabled=false;
+}
+
+function parseXML(xml){
+  return Array.from(new DOMParser().parseFromString(xml,'text/xml').querySelectorAll('PubmedArticle')).map(a=>{
+    const g=s=>{const el=a.querySelector(s);return el?el.textContent.trim():'';};
+    const te=a.querySelector('ArticleTitle');
+    const title=te?te.textContent.trim():'';
+    const auths=Array.from(a.querySelectorAll('Author')).map(au=>{
+      const l=au.querySelector('LastName')?.textContent||'',f=au.querySelector('ForeName')?.textContent||'';
+      return l?`${l} ${f}`.trim():'';
+    }).filter(Boolean);
+    const abs=Array.from(a.querySelectorAll('AbstractText')).map(el=>el.textContent).join(' ').trim()||'No abstract available.';
+    const pmid=g('PMID');
+    const doi=Array.from(a.querySelectorAll('ArticleId')).find(el=>el.getAttribute('IdType')==='doi')?.textContent||'';
+    const year=g('PubDate Year')||(g('PubDate MedlineDate')||'').slice(0,4);
+    return{pmid,title,authors:auths.length>3?auths.slice(0,3).join(', ')+' et al.':auths.join(', ')||'N/A',journal:g('Journal Title')||g('MedlineTA'),year,abs,doi,url:pmid?`https://pubmed.ncbi.nlm.nih.gov/${pmid}/`:''};
+  });
+}
+
+function searchCard(p){
+  const saved=!!db.papers[p.pmid];
+  return `<div class="card" id="sc-${p.pmid}">
+    <div class="ct">${e(p.title)}</div>
+    <div class="cm">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''} ${p.doi?`&middot; <a class="lnk" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''} ${p.url?`&middot; <a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a>`:''}</div>
+    <div class="abstract" id="ab-${p.pmid}">${e(p.abs)}</div>
+    <div class="actions">
+      <button class="btn btn-sm btn-ghost" onclick="togAbs('${p.pmid}',this)">Show abstract</button>
+      ${saved?`<span class="saved-chip">Saved</span><button class="btn btn-sm" onclick="openAnn('${p.pmid}')">Annotate</button>`:
+      `<button class="btn btn-sm btn-primary" onclick='savePaper(${JSON.stringify(p).replace(/'/g,"&#39;")})'>Save to library</button>`}
+    </div>
+  </div>`;
+}
+
+function togAbs(pmid,btn){
+  const el=document.getElementById('ab-'+pmid);
+  btn.textContent=el.classList.toggle('open')?'Hide abstract':'Show abstract';
+}
+
+async function savePaper(p){
+  if(db.papers[p.pmid])return;
+  db.papers[p.pmid]={...p,savedAt:Date.now(),notes:'',highlight:'',hlColor:'y',tags:[]};
+  saveDB();refreshStats();
+  const row=document.getElementById('sc-'+p.pmid);
+  if(row){const acts=row.querySelector('.actions');acts.lastElementChild.outerHTML=`<span class="saved-chip">Saved</span><button class="btn btn-sm" onclick="openAnn('${p.pmid}')">Annotate</button>`;}
+  toast('Saved to library');openAnn(p.pmid);
+}
+
+function openAnn(pmid){
+  const p=db.papers[pmid];if(!p)return;
+  const topicChecks=db.topics.length
+    ?`<div class="chklist">${db.topics.map(t=>`<label><input type="checkbox" value="${e(t)}" ${(p.tags||[]).includes(t)?'checked':''} onchange="toggleTag('${pmid}','${ea(t)}',this.checked)"> ${e(t)}</label>`).join('')}</div>`
+    :`<p style="font-size:12px;color:var(--faint);font-family:var(--mono)">No topics yet — create some in the Topics tab first.</p>`;
+  document.getElementById('ann-body').innerHTML=`
+    <div class="asec">
+      <div class="ct" style="font-size:14px">${e(p.title)}</div>
+      <div class="cm" style="margin-top:4px">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''}</div>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        ${p.url?`<a class="btn btn-sm" href="${e(p.url)}" target="_blank">PubMed</a>`:''}
+        ${p.doi?`<a class="btn btn-sm" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''}
+        <span style="font-size:11px;color:var(--faint);font-family:var(--mono);padding:5px 0">Saved ${new Date(p.savedAt).toLocaleDateString()}</span>
+      </div>
+    </div>
+    <div class="asec">
+      <div class="stitle">Abstract</div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.7">${e(p.abs)}</p>
+    </div>
+    <div class="asec">
+      <div class="stitle">Key finding / highlight</div>
+      <textarea id="an-hl" placeholder="Copy or type the key finding from this paper..." onchange="patchAnn('${pmid}')">${e(p.highlight||'')}</textarea>
+      <div style="display:flex;gap:6px;margin-top:10px;align-items:center;flex-wrap:wrap">
+        <span style="font-size:12px;color:var(--muted)">Color:</span>
+        ${[['y','yellow'],['g','green'],['r','red'],['p','purple']].map(([k,label])=>`<button class="hls hl${k}${(p.hlColor||'y')===k?' sel':''}" onclick="setHLC('${pmid}','${k}',this)">${label}</button>`).join('')}
+      </div>
+    </div>
+    <div class="asec">
+      <div class="stitle">Notes</div>
+      <textarea id="an-nt" placeholder="Your notes, methods, relevance to your project..." onchange="patchAnn('${pmid}')">${e(p.notes||'')}</textarea>
+    </div>
+    <div class="asec">
+      <div class="stitle">Topics</div>${topicChecks}
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:2rem">
+      <button class="btn btn-primary" onclick="saveAnn('${pmid}')">Save annotation</button>
+      <button class="btn btn-danger btn-sm" onclick="delPaper('${pmid}')">Remove from library</button>
+      <span id="ann-ok" style="font-size:12px;color:var(--green);font-family:var(--mono);display:none">Saved!</span>
+    </div>`;
+  show('s-ann');
+}
+
+function patchAnn(pmid){
+  const p=db.papers[pmid];if(!p)return;
+  const hl=document.getElementById('an-hl'),nt=document.getElementById('an-nt');
+  if(hl)p.highlight=hl.value;if(nt)p.notes=nt.value;saveDB();
+}
+function saveAnn(pmid){
+  patchAnn(pmid);refreshStats();
+  const ok=document.getElementById('ann-ok');
+  if(ok){ok.style.display='inline';setTimeout(()=>ok.style.display='none',2000);}
+  toast('Annotation saved');
+}
+function setHLC(pmid,c,btn){
+  if(db.papers[pmid])db.papers[pmid].hlColor=c;saveDB();
+  document.querySelectorAll('[onclick^="setHLC"]').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');
+}
+function toggleTag(pmid,tag,checked){
+  const p=db.papers[pmid];if(!p)return;
+  if(!p.tags)p.tags=[];
+  if(checked&&!p.tags.includes(tag))p.tags.push(tag);
+  else if(!checked)p.tags=p.tags.filter(t=>t!==tag);
+  saveDB();refreshStats();
+}
+function delPaper(pmid){
+  if(!confirm('Remove this paper from your library?'))return;
+  delete db.papers[pmid];saveDB();refreshStats();backMain();toast('Paper removed');
+}
+function backMain(){show('s-main');}
+
+function fillTagFilter(){
+  const s=document.getElementById('ltag'),cur=s.value;
+  s.innerHTML='<option value="">All topics</option>'+db.topics.map(t=>`<option value="${e(t)}" ${cur===t?'selected':''}>${e(t)}</option>`).join('');
+}
+
+function renderLib(){
+  const papers=Object.values(db.papers);
+  const q=(document.getElementById('lq')?.value||'').toLowerCase();
+  const tag=document.getElementById('ltag')?.value||'';
+  const sort=document.getElementById('lsort')?.value||'saved';
+  let f=papers.filter(p=>{
+    if(tag&&!(p.tags||[]).includes(tag))return false;
+    if(q&&!(p.title+p.authors+p.journal+(p.notes||'')+(p.highlight||'')).toLowerCase().includes(q))return false;
+    return true;
+  });
+  if(sort==='saved')f.sort((a,b)=>(b.savedAt||0)-(a.savedAt||0));
+  else if(sort==='year')f.sort((a,b)=>parseInt(b.year||0)-parseInt(a.year||0));
+  else f.sort((a,b)=>a.title.localeCompare(b.title));
+  const el=document.getElementById('lres');
+  if(!f.length){el.innerHTML=`<div class="empty">${papers.length?'No papers match your filters.':'Your library is empty. Search PubMed and save papers to get started.'}</div>`;return;}
+  el.innerHTML=f.map(p=>{
+    const tags=(p.tags||[]).map(t=>`<span class="tag">${e(t)}</span>`).join('');
+    return `<div class="card">
+      <div class="ct">${e(p.title)}</div>
+      <div class="cm">${e(p.authors)} &middot; <em>${e(p.journal)}</em>${p.year?' ('+p.year+')':''} ${p.url?`&middot; <a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a>`:''}${p.doi?` &middot; <a class="lnk" href="https://doi.org/${e(p.doi)}" target="_blank">DOI</a>`:''}</div>
+      ${p.highlight?`<div style="margin:6px 0"><span class="hl ${p.hlColor||'y'}">${e(p.highlight)}</span></div>`:''}
+      ${p.notes?`<div style="font-size:12px;color:var(--muted);font-style:italic;margin:4px 0">${e(p.notes)}</div>`:''}
+      ${tags?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px">${tags}</div>`:''}
+      <div class="actions"><button class="btn btn-sm" onclick="openAnn('${p.pmid}')">Edit annotation</button></div>
+    </div>`;
+  }).join('');
+}
+
+function renderTopics(){
+  const el=document.getElementById('tlist');
+  if(!db.topics.length){el.innerHTML='<div class="empty">No topics yet. Add one above.</div>';return;}
+  el.innerHTML=db.topics.map(t=>{
+    const cnt=Object.values(db.papers).filter(p=>(p.tags||[]).includes(t)).length;
+    return `<div class="trow">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="tag">${e(t)}</span>
+        <span style="font-size:12px;color:var(--faint);font-family:var(--mono)">${cnt} paper${cnt===1?'':'s'}</span>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm" onclick="filterTopic('${ea(t)}')">View papers</button>
+        <button class="btn btn-sm btn-danger" onclick="delTopic('${ea(t)}')">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function addTopic(){
+  const inp=document.getElementById('ntop'),n=inp.value.trim();
+  if(!n||db.topics.includes(n))return;
+  db.topics.push(n);saveDB();inp.value='';refreshStats();renderTopics();fillTagFilter();fillSummaryTopics();toast('Topic added');
+}
+async function delTopic(name){
+  if(!confirm(`Delete topic "${name}"?`))return;
+  db.topics=db.topics.filter(t=>t!==name);
+  Object.values(db.papers).forEach(p=>{if(p.tags)p.tags=p.tags.filter(t=>t!==name);});
+  saveDB();refreshStats();renderTopics();fillTagFilter();fillSummaryTopics();toast('Topic deleted');
+}
+function filterTopic(topic){
+  document.getElementById('ltag').value=topic;
+  goTab('library',document.querySelectorAll('.nt')[1]);
+}
+
+function fillSummaryTopics(){
+  const s=document.getElementById('sum-topic-sel');
+  const cur=s.value;
+  s.innerHTML='<option value="">— choose a topic —</option>'+db.topics.map(t=>{
+    const cnt=Object.values(db.papers).filter(p=>(p.tags||[]).includes(t)).length;
+    return `<option value="${e(t)}" ${cur===t?'selected':''}>${e(t)} (${cnt} paper${cnt===1?'':'s'})</option>`;
+  }).join('');
+  updateSumCount();
+}
+
+function updateSumCount(){
+  const topic=document.getElementById('sum-topic-sel').value;
+  const el=document.getElementById('sum-paper-count');
+  if(!topic){el.textContent='';return;}
+  const cnt=Object.values(db.papers).filter(p=>(p.tags||[]).includes(topic)).length;
+  el.textContent=cnt?`${cnt} paper${cnt===1?'':'s'} will be summarized`:'No papers tagged to this topic yet.';
+}
+
+document.addEventListener('change',function(ev){if(ev.target.id==='sum-topic-sel')updateSumCount();});
+
+async function runSummary(){
+  const topic=document.getElementById('sum-topic-sel').value;
+  if(!topic){toast('Please select a topic first');return;}
+  const papers=Object.values(db.papers).filter(p=>(p.tags||[]).includes(topic));
+  if(!papers.length){toast('No papers tagged to this topic');return;}
+
+  const btn=document.getElementById('sum-btn');
+  const out=document.getElementById('sum-output');
+  btn.disabled=true;
+  out.innerHTML=`<div style="font-size:13px;color:var(--muted);font-family:var(--mono);padding:1rem 0"><span class="spin"></span>Generating AI summary for "${e(topic)}" (${papers.length} papers)...</div>`;
+
+  const paperList=papers.map((p,i)=>`[${i+1}] Title: ${p.title}\nAuthors: ${p.authors}\nJournal: ${p.journal} (${p.year})\nAbstract: ${p.abs}${p.highlight?'\nKey finding noted by researcher: '+p.highlight:''}${p.notes?'\nResearcher notes: '+p.notes:''}`).join('\n\n---\n\n');
+
+  const prompt=`You are a scientific literature assistant helping a biomedical research lab.
+
+The researcher has saved ${papers.length} PubMed papers tagged to the topic: "${topic}"
+
+Here are the papers with their abstracts:
+
+${paperList}
+
+Please provide:
+
+1. OVERVIEW (3-5 sentences): A narrative synthesis of the key themes, findings, and consensus across these papers on the topic of "${topic}". Mention major trends, methods used, and any notable contradictions or gaps.
+
+2. PER-PAPER KEY FINDINGS: For each paper, one concise bullet point (1-2 sentences) summarizing its single most important finding relevant to "${topic}". Format as:
+[1] Author et al. (Year) — key finding
+[2] Author et al. (Year) — key finding
+etc.
+
+Be specific, scientifically accurate, and concise. Focus on what the researcher needs to know.`;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1500,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content?.map(c=>c.text||'').join('')||'No response received.';
+
+    db.summaryCount=(db.summaryCount||0)+1;
+    saveDB();refreshStats();
+
+    const parts=text.split(/\n(?=\[1\])/);
+    const overview=parts[0].replace(/^1\.\s*OVERVIEW[:\s]*/i,'').replace(/^OVERVIEW[:\s]*/i,'').trim();
+    const bullets=parts[1]||'';
+
+    const firstAuthor=p=>p.authors.split(',')[0].split(' ')[0];
+
+    out.innerHTML=`
+      <div class="ai-badge">AI summary &nbsp;·&nbsp; ${papers.length} papers &nbsp;·&nbsp; ${new Date().toLocaleDateString()}</div>
+      <div class="sum-box">
+        <div class="stitle">Overview — ${e(topic)}</div>
+        <p class="sum-overview">${e(overview)}</p>
+      </div>
+      <div class="sum-box">
+        <div class="stitle">Key finding per paper</div>
+        ${papers.map((p,i)=>{
+          const re=new RegExp(`\\[${i+1}\\][^\\n]*\\n?([^\\[]+)`,'i');
+          const m=bullets.match(re);
+          const finding=m?m[0].replace(`[${i+1}]`,'').replace(/^[^—–-]*[—–-]/,'').trim():'See abstract.';
+          return `<div class="sum-paper-item">
+            <div class="sum-paper-title">[${i+1}] ${e(p.authors.split(',').slice(0,2).join(', '))}${p.authors.includes('et al')||p.authors.split(',').length>2?' et al.':''} (${p.year}) &nbsp;<a class="lnk" href="${e(p.url)}" target="_blank">PubMed</a></div>
+            <div class="sum-paper-bullet">${e(finding)}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn btn-sm" onclick="copySummary()">Copy summary</button>
+        <button class="btn btn-sm btn-ghost" onclick="runSummary()">Regenerate</button>
+      </div>
+      <div id="sum-text-hidden" style="display:none">${e('Topic: '+topic+'\n\nOVERVIEW\n'+overview+'\n\nKEY FINDINGS PER PAPER\n'+bullets)}</div>`;
+  }catch(err){
+    out.innerHTML=`<div style="font-size:13px;color:var(--red);font-family:var(--mono);padding:1rem 0">Error generating summary. Make sure you are running this through the Claude.ai interface or a valid API connection.</div>`;
+  }
+  btn.disabled=false;
+}
+
+function copySummary(){
+  const el=document.getElementById('sum-text-hidden');
+  if(!el)return;
+  navigator.clipboard.writeText(el.textContent).then(()=>toast('Summary copied to clipboard')).catch(()=>toast('Could not copy — try selecting text manually'));
+}
+
+function exportCSV(){
+  const papers=Object.values(db.papers);
+  if(!papers.length){toast('No papers to export');return;}
+  const cols=['PMID','Title','Authors','Journal','Year','DOI','Topics','Key finding','Notes','Saved date','PubMed URL'];
+  const rows=papers.map(p=>[p.pmid,p.title,p.authors,p.journal,p.year,p.doi,(p.tags||[]).join('; '),p.highlight||'',p.notes||'',new Date(p.savedAt).toLocaleDateString(),p.url].map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(','));
+  const csv=[cols.join(','),...rows].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`${user.replace(/\s+/g,'_')}_lab_library.csv`;
+  a.click();toast('CSV exported');
+}
+
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2500);}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms));}
+function e(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function ea(s){return(s||'').replace(/'/g,"\\'");}
+
+renderPrev();
+</script>
+</body>
+</html>
